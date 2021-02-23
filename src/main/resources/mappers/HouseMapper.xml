@@ -41,5 +41,12 @@
     <update id="updateImgById" >
         update house set hpic=#{url}  where id=#{id}
     </update>
+
+    <select id="getBySchool" resultType="com.study.manager.bean.House" parameterType="java.lang.Integer">
+        select house.*
+        from school , house
+        where school.id = house.sid
+        and school.id = #{id}
+    </select>
 </mapper>
 

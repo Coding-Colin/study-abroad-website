@@ -8,6 +8,9 @@
         .hh {
             display: inline;
         }
+        a：hover{
+            cursor:pointer
+        }
     </style>
 </head>
 <body>
@@ -70,10 +73,11 @@
     layui.use('element', function () {
         var element = layui.element;
     });
-    //预定酒店
+    //查看课程
     $(".lookcourse").click(function () {
         var id = $(this).attr("data-id");
-        window.location.href = "/courseByTeacher/" + id + ".do";
+        localStorage.setItem("cid", id);
+        window.location.href = "/courseShopHtml.do";
     })
 </script>
 </html>

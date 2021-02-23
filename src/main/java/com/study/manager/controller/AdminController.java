@@ -56,6 +56,28 @@ public class AdminController {
     }
 
     /**
+     * 添加用户
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/addUser.do")
+    public String addUser(@RequestBody String array[]){
+        User user1 = userMapper.getByName(array[0]);//判断该用户名是否已经注册过
+        if(user1!=null){
+            return JsonUtil.toJson("该用户已注册请重新注册");//如果已经注册过直接返回错误
+        }
+        else {
+            User user = new User();
+            user.setName(array[0]);
+            user.setTel(array[1]);
+            user.setPassword(array[2]);
+            user.setPos(Integer.parseInt(array[3]));//设置为普通用户
+            userMapper.insert(user);
+            return JsonUtil.toJson("注册成功");//返回登陆页面
+        }
+    }
+
+    /**
      * 查询用户
      *
      * @return
@@ -101,7 +123,7 @@ public class AdminController {
      */
     @ResponseBody
     @RequestMapping("/addCourse.do")
-    public String addUser(@RequestBody String array[]) throws Exception {
+    public String addCourse(@RequestBody String array[]) throws Exception {
         Course course = new Course();
         course.setCname(array[0]);
         course.setCintroduce(array[1]);

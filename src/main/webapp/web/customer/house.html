@@ -8,6 +8,9 @@
         .hh {
             display: inline;
         }
+        a：hover{
+            cursor:pointer
+        }
     </style>
 </head>
 <body>
@@ -31,39 +34,11 @@
 <br><br>
 <h2 align="center">附近房源</h2>
 <br>
-<div id="messagediv">
-    <tr th:each="log:${logs}">
-        <div class="layui-container">
-            <br><br><br>
-            <div class="layui-row">
-                <div class="layui-col-md6">
-                    <img class="layui-col-md-offset6" th:src="@{${log.hpic}}" width="170px" height="170px">
-                </div>
-                <div class="layui-col-md6">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            <h3>
-                                <strong>[[${log.hname}]]</strong>
-                            </h3>
-                        </div>
-                        <div class="layui-card-body">
+<table>
+    <tr id="bodyDiv">
 
-                            地址：<h4 class="hh">[[${log.haddress}]]</h4>
-                            <br>
-                            价格：<h4 style="color: #FD482C" class="hh">[[${log.hprice}]]</h4>&nbsp;&nbsp;¥/月
-                            <br>
-                            人气指数：🌟🌟🌟🌟🌟
-                            <br>
-                            <button class="layui-btn-radius layui-btn orderhouse" th:data-id="${log.id}"
-                                    th:if="${session.loginUser!=null}">预定
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </tr>
-</div>
+</table>
 <br><br>
 </body>
 <script src="source/layui/layui.js" charset="utf-8"></script>
@@ -74,10 +49,31 @@
         var element = layui.element;
     });
 
-    //预定酒店
-    $(".orderhouse").click(function () {
-        var id = $(this).attr("data-id");
+    window.onload = function () {
+        var id = localStorage.getItem("hid");
+        localStorage.removeItem("hid");
         var array = [id];
+        $.ajax({
+            type: "POST",
+            url: "initHouse.do",
+            dataType: "json",
+            scriptCharset: 'utf-8',
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(array),
+            success: function (data) {
+                if (data == '当前没用用户登录，请登录重试！') {
+                    alert(data);
+                    return;
+                }
+                var html = show(data);
+                $("#bodyDiv").html(html);
+            }
+        });
+    };
+
+    //预定酒店
+    function orderhouse(e) {
+        var array = [e];
         $.ajax({
             type: "POST",
             url: "/houseOrderHtml.do",
@@ -93,6 +89,28 @@
                 }
             }
         });
-    })
+    }
+
+    function show(data) {
+        var html = '';
+        for (var i = 0; i < data.length; i++) {
+            html += '<div class="layui-container"><br><br><br>';
+            html += '<div class="layui-row">';
+            html += '<div class="layui-col-md6">';
+            html += '<img class="layui-col-md-offset6" src="' + data[i].hpic + '" width="180px" height="180px">';
+            html += '</div>';
+            html += '<div class="layui-col-md6">';
+            html += '<div class="layui-card">';
+            html += '<div class="layui-card-header">';
+            html += '<h3><strong>' + data[i].hname + '</strong></h3></div>';
+            html += '<div class="layui-card-body">';
+            html += '地址：<p class="hh">' + data[i].haddress + '</p><br>';
+            html += '价格：<h4 style="color: #FD482C" class="hh">' + data[i].hprice + '</h4>&nbsp;&nbsp;¥<br>';
+            html += '人气指数：🌟🌟🌟🌟🌟<br>'
+            html += '<button type="button" class="layui-btn layui-btn-radius" style="width: 19%" onclick="orderhouse(' + data[i].id + ')">预定酒店</button>';
+            html += '</div></div></div></div></div>';
+        }
+        return html;
+    }
 </script>
 </html>

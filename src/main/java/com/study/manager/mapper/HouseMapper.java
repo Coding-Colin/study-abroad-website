@@ -62,4 +62,7 @@ public interface HouseMapper {
      * @param url
      */
     void updateImgById(@Param("id") Integer id, @Param("url") String url);
+
+
+    List<House> getBySchool(int id);
 }

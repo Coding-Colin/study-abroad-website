@@ -102,22 +102,36 @@ public class CustomerController {
         return "customer/popular";
     }
 
-
     /**
      * 学校附近房源
      *
      * @return
      */
     @RequestMapping("/nearHouseHtml.do")
-    public String nearHouseHtml(Model model) {
-//        School school = schoolMapper.getById(id);
-//        String address = school.saddress.split("-")[0];
-//        List<House> list = houseMapper.getLikeAdd(address);
-        List<House> list = houseMapper.getAll();
-        model.addAttribute("logs", list);
+    public String nearHouseHtml() {
         return "customer/house";
     }
 
+    /**
+     * 课程列表
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/initHouse.do")
+    public String initHouse(@RequestBody String array[], HttpSession session) {
+        if (null == session.getAttribute("loginUser")) {
+            return JsonUtil.toJson("当前没用用户登录，请登录重试！");
+        }
+        List<House> list;
+        if (array[0] == null) {
+            list = houseMapper.getAll();
+        } else {
+            int id = Integer.parseInt(String.valueOf(array[0]));
+            list = houseMapper.getBySchool(id);
+        }
+        return JsonUtil.toJson(list);
+    }
 
     /**
      * 酒店预定
@@ -176,9 +190,7 @@ public class CustomerController {
      * @return
      */
     @RequestMapping("/courseShopHtml.do")
-    public String courseShopHtml(Model model) {
-        List<Course> list = courseMapper.getAll();
-        model.addAttribute("logs", list);
+    public String courseShopHtml() {
         return "customer/course";
     }
 
@@ -187,11 +199,20 @@ public class CustomerController {
      *
      * @return
      */
-    @RequestMapping("/courseByTeacher/{id}.do")
-    public String courseShopHtml(@PathVariable("id") Integer id, Model model) {
-        List<Course> list = courseMapper.getByTeacher(id);
-        model.addAttribute("logs",list);
-        return "customer/course";
+    @ResponseBody
+    @RequestMapping("/initCourse.do")
+    public String initCourse(@RequestBody String array[], HttpSession session) {
+        if (null == session.getAttribute("loginUser")) {
+            return JsonUtil.toJson("当前没用用户登录，请登录重试！");
+        }
+        List<Course> list;
+        if (array[0] == null) {
+            list = courseMapper.getAll();
+        } else {
+            int id = Integer.parseInt(String.valueOf(array[0]));
+            list = courseMapper.getByTeacher(id);
+        }
+        return JsonUtil.toJson(list);
     }
 
     /**

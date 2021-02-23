@@ -11,6 +11,7 @@ public class House {
     public Integer hprice;//价格
     public String htel;//电话
     public String hpic;//照片
+    public Integer sid;//学校id
 
     public Integer getId() {
         return id;
@@ -58,5 +59,13 @@ public class House {
 
     public void setHpic(String hpic) {
         this.hpic = hpic;
+    }
+
+    public Integer getSid() {
+        return sid;
+    }
+
+    public void setSid(Integer sid) {
+        this.sid = sid;
     }
 }

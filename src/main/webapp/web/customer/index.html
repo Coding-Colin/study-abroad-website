@@ -16,6 +16,9 @@
             height: 350px;
             -webkit-font-smoothing: antialiased;
         }
+        a：hover{
+            cursor:pointer
+        }
     </style>
 </head>
 <body>
@@ -56,8 +59,8 @@
 <div class="layui-collapse" lay-filter="test">
     <div class="layui-colla-item " th:each="inf:${infs}">
         <h2 class="layui-colla-title">[[${inf.title}]]</h2>
-        <div class="layui-colla-content lxzx">
-            <p>[[${inf.content}]]</p>
+        <div class="layui-colla-content">
+            <a style="cursor: pointer">[[${inf.content}]]</a>
         </div>
     </div>
 </div>
@@ -109,6 +112,8 @@
     });
     //跳转课程
     $(".selectCourse").click(function () {
+        var id = $(this).attr("data-id");
+        localStorage.setItem("cid",id);
         window.location.href = "courseShopHtml.do";
     });
     $(".lxzx").click(function () {

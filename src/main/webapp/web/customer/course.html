@@ -8,6 +8,9 @@
         .hh {
             display: inline;
         }
+        a：hover{
+            cursor:pointer
+        }
     </style>
 </head>
 <body>
@@ -31,38 +34,11 @@
 <br><br>
 <h2 align="center">课程列表</h2>
 <br>
-<div id="messagediv">
-    <tr th:each="log:${logs}">
-        <div class="layui-container">
-            <br><br><br>
-            <div class="layui-row">
-                <div class="layui-col-md6">
-                    <img class="layui-col-md-offset6" th:src="@{${log.cpic}}" width="180px" height="180px">
-                </div>
-                <div class="layui-col-md6">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            <h3>
-                                <strong>[[${log.cname}]]</strong>
-                            </h3>
-                        </div>
-                        <div class="layui-card-body">
-                            简介：<p class="hh">[[${log.cintroduce}]]</p>
-                            <br>
-                            开课时间：<p class="hh" th:text="${#dates.format(log.cdate,'yyyy-MM-dd')}"></p>
-                            <br>
-                            价格：<h4 style="color: #FD482C" class="hh">[[${log.cprice}]]</h4>&nbsp;&nbsp;¥
-                            <br>
-                            <button type="button" class="layui-btn layui-btn-radius buycourse" style="width: 19%"
-                                    th:data-id="${log.id}" th:if="${session.loginUser!=null}">加入购物车
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<table>
+    <tr id="bodyDiv">
+
     </tr>
-</div>
+</table>
 <br>
 <br>
 </body>
@@ -74,20 +50,65 @@
         var element = layui.element;
     });
 
+    window.onload = function () {
+        var id = localStorage.getItem("cid");
+        localStorage.removeItem("cid");
+        var array = [id];
+        $.ajax({
+            type: "POST",
+            url: "initCourse.do",
+            dataType: "json",
+            scriptCharset: 'utf-8',
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(array),
+            success: function (data) {
+                if (data == '当前没用用户登录，请登录重试！') {
+                    alert(data);
+                    return;
+                }
+                var html = show(data);
+                $("#bodyDiv").html(html);
+            }
+        });
+    };
+
     //    购买课程
-    $(".buycourse").click(function () {
-        var id = $(this).attr("data-id");
+    function addtocar(e) {
         $.ajax({
             type: "POST",
             url: "addshoppingcar.do",
             dataType: "json",
             scriptCharset: 'utf-8',
             contentType: "application/json;charset=UTF-8",
-            data: id,
+            data: e,
             success: function (data) {
                 alert(data);
             }
         });
-    });
+    }
+
+    function show(data) {
+        var html = '';
+        for (var i = 0; i < data.length; i++) {
+            html += '<div class="layui-container"><br><br><br>';
+            html += '<div class="layui-row">';
+            html += '<div class="layui-col-md6">';
+            html += '<img class="layui-col-md-offset6" src="' + data[i].cpic + '" width="180px" height="180px">';
+            html += '</div>';
+            html += '<div class="layui-col-md6">';
+            html += '<div class="layui-card">';
+            html += '<div class="layui-card-header">';
+            html += '<h3><strong>' + data[i].cname + '</strong></h3></div>';
+            html += '<div class="layui-card-body">';
+            html += '简介：<p class="hh">' + data[i].cintroduce + '</p><br>';
+            html += '开课时间：<p class="hh">' + data[i].cdate + '</p><br>';
+            html += '价格：<h4 style="color: #FD482C" class="hh">' + data[i].cprice + '</h4>&nbsp;&nbsp;¥<br>';
+            html += '<button type="button" class="layui-btn layui-btn-radius buycourse" style="width: 19%" onclick="addtocar(' + data[i].id + ')">加入购物车</button>';
+            html += '</div></div></div></div></div>';
+        }
+        return html;
+    }
+
+
 </script>
 </html>
