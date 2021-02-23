@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>支付页面</title>
+<link rel="stylesheet" type="text/css" href="source/pay/css/amazeui.min.css" />
+<link rel="stylesheet" type="text/css" href="source/pay/css/main.css" />
+</head>
+<body>
+<div class="pay">
+	<!--主内容开始编辑-->
+	<div class="tr_recharge">
+		<div class="tr_rechtext">
+			<p class="te_retit"><img src="source/pay/images/coin.png" alt="" />支付中心</p>
+		</div>
+		<div action="" class="am-form" id="doc-vld-msg">
+			<div class="tr_rechbox">
+				<div class="tr_rechhead">
+					<img src="source/pay/images/ys_head2.jpg" />
+					<p>支付帐号：
+						<a>[[${session.loginUser}]]</a>
+					</p>
+				</div>
+				<div class="tr_rechoth am-form-group">
+					<span>其他金额：</span>
+					<input type="number" min="10" max="10000" value="10.00元" class="othbox" data-validation-message="充值金额范围：10-10000元" />
+				</div>
+				<div class="tr_rechcho am-form-group">
+					<span>充值方式：</span>
+					<label class="am-radio">
+							<input type="radio" name="radio1" value="" data-am-ucheck required data-validation-message="请选择一种充值方式" checked><img src="source/pay/images/wechatpay.png">
+						</label>
+					<label class="am-radio" style="margin-right:30px;">
+							<input type="radio" name="radio1" value="" data-am-ucheck data-validation-message="请选择一种充值方式"><img src="source/pay/images/zfbpay.png">
+						</label>
+				</div>
+				<div class="tr_rechnum">
+					<span>应付金额：</span>
+					<p class="rechnum" id="yprice">[[${session.price}]]元</p>
+				</div>
+			</div>
+			<div class="tr_paybox">
+				<input type="button" value="确认支付" class="tr_pay am-btn" id="paybtn2"/>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="source/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+
+	$("#paybtn2").click(function () {
+	    if (confirm("国际酒店的预定需要您到店展示预定的账号，是否确认？")){
+            $.ajax({
+                type: "GET",
+                url: "payHouse.do",
+                dataType: "json",
+                success: function(data){
+                    alert(data);
+                    window.history.back();
+                    window.history.back();
+                }
+            });
+		}
+
+    })
+
+</script>
+
+</body>
+</html>

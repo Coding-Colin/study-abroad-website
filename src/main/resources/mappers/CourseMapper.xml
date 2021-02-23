@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.study.manager.mapper.CourseMapper">
+
+    <!--查询全部-->
+    <select id="getAll" resultType="com.study.manager.bean.Course">
+        select * from course
+    </select>
+
+
+    <!--新增-->
+    <insert id="add" parameterType="com.study.manager.bean.Course">
+        insert into course(cname,cintroduce,cdate,cprice,cpic) values (#{cname},#{cintroduce},#{cdate},#{cprice},'source/img/course/c7.jpg')
+    </insert>
+
+
+    <!--根据id查找-->
+    <select id="getById" parameterType="java.lang.Integer" resultType="com.study.manager.bean.Course">
+        select * from course where id=#{id}
+    </select>
+
+
+    <!--更新-->
+    <update id="update" parameterType="com.study.manager.bean.Course">
+        update course set  cname=#{cname},cintroduce=#{cintroduce},cdate=#{cdate},cprice=#{cprice} where id=#{id}
+    </update>
+
+
+    <!--删除-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from course where id=#{id}
+    </delete>
+
+    <!--更新图片-->
+    <update id="updateImgById">
+        update course set cpic=#{url}  where id=#{id}
+    </update>
+
+
+    <select id="getByTeacher" parameterType="java.lang.Integer" resultType="com.study.manager.bean.Course">
+        SELECT course.*
+        from course,teacher
+        where teacher.id = course.tid
+        and teacher.id = #{id}
+    </select>
+</mapper>
+
+
+
+
+
+
+

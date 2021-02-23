@@ -1,0 +1,32 @@
+.g-cnt{
+    position:relative;
+    width: 1140px;
+    height: auto;
+    margin: 0 auto;
+    zoom: 1;
+}
+div{
+    display: block;
+}
+.g-cnt:after{
+    content: ".";
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+    overflow: hidden;
+}
+.m-djjc .u-tit, .m-sqtd .u-tit, .m-tfkc .u-tit{
+    margin-bottom: 0;
+}
+.u-tit{
+    position: relative;
+    width: 1140px;
+    height: 40px;
+    margin: 30px auto 22px;
+    border: 1px solid #ffe314;
+}
+.m-djjc .tab-box, .m-sqtd .tab-box, .m-tfkc .tab-box{
+    width: 1140px;
+    margin-left:-2px;
+}

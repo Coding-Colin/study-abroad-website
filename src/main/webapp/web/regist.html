@@ -1,0 +1,168 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>注册</title>
+    <link rel="stylesheet" href="source/layui/css/layui.css">
+    <style type="text/css">
+        .layui-input{
+            width: 80%;
+        }
+        .layui-input{
+            border-width:3px;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .layui-form-select .layui-input{
+            width:36%;
+        }
+
+        .layui-form-select dl{
+            min-width: 36%;
+        }
+        .layui-edge{
+            display: none;
+        }
+        body{
+            background-image: url("img/bg.jpg");
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <br><br><br><br><br><br><br><br><br><br>
+    <div class="layui-row">
+        <div class="layui-col-md6">
+            <br><br><br><br><br><br>
+            <img class="layui-col-md-offset6" src="source/img/regist.ico">
+        </div>
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <h3>
+                        <strong>账号注册</strong>
+                    </h3>
+                </div>
+                <div class="layui-card-body">
+
+                    <div class="layui-form">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                用户名
+                            </label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="name" placeholder="请输入账号" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                电话
+                            </label>
+                            <div class="layui-input-inline">
+                                <input type="text" id="tel" placeholder="请输入电话" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                设置密码
+                            </label>
+                            <div class="layui-input-inline">
+                                <input type="password" id="password" placeholder="请输入密码" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">
+                                确认密码
+                            </label>
+                            <div class="layui-input-inline">
+                                <input type="password" id="Apassword" placeholder="请再次输入密码" class="layui-input">
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button id="submitbtn" class="layui-btn layui-btn-radius">注册</button>
+                                <button type="button" class="layui-btn layui-btn-radius layui-btn-primary" id="back">返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="source/layui/layui.js" charset="utf-8"></script>
+<script src="source/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+<script>
+
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+
+    //注册
+    $(document).on("click","#submitbtn",function () {
+        var name = $("#name").val();
+        var tel = $("#tel").val();
+        var password = $("#password").val();
+        var Apassword = $("#Apassword").val();
+        if(name==''){
+            alert("用户名不能为空");
+        }
+        else if(tel==''){
+            alert("电话不能为空");
+        }
+        else if (!checkPhone(tel)){
+            alert("电话格式有误");
+        }
+        else if(password==''){
+            alert("密码不能为空");
+        }
+        else if(Apassword==''){
+            alert("确认密码不能为空");
+        }
+        else if(Apassword!=password){
+            alert("两次密码不一致");
+        }
+        else {
+            if (confirm("是否确定注册？")) {
+                var array = [name,tel,password,0];
+                $.ajax({
+                    type: "POST",
+                    url: "/addUser.do",
+                    dataType: "json",
+                    contentType : "application/json;charset=UTF-8",
+                    data:JSON.stringify(array),
+                    success: function (data) {
+                        alert(data);
+                        if (data=='注册成功') {
+                            window.location.href="loginHtml.do";
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    $(document).on("click","#back",function(){
+        window.history.back();
+    });
+
+
+    function checkPhone(e){
+        if(e.length!=11){
+            // alert("手机号码有误，请重填");
+            return false;
+        }
+        return true;
+    }
+
+</script>
+</html>

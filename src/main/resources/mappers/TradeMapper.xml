@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.study.manager.mapper.TradeMapper">
+
+
+    <!--根据登陆用户查询购物车-->
+    <select id="getByLoginUserP0" resultType="com.study.manager.bean.Trade" parameterType="java.lang.String">
+        select * from trade where pos=0 and loginUser=#{loginUser}
+    </select>
+
+    <!--根据登陆用户查询买到-->
+    <select id="getByLoginUserP1" resultType="com.study.manager.bean.Trade" parameterType="java.lang.String">
+        select * from trade where pos=1 and loginUser=#{loginUser}
+    </select>
+
+    <!--新增-->
+    <insert id="add" parameterType="com.study.manager.bean.Trade">
+        insert into trade (cname,cprice,cnum,loginUser,pos,cpic,type) values (#{cname},#{cprice},#{cnum},#{loginUser},0,#{cpic},#{type})
+    </insert>
+
+
+    <!--更新购物车状态-->
+    <update id="updateById" parameterType="java.lang.Integer">
+        update trade set pos = 1,cdate=now() where id=#{id}
+    </update>
+
+
+
+    <!--查询已卖出-->
+    <select id="getAllP1" resultType="com.study.manager.bean.Trade" parameterType="java.lang.String">
+        select * from trade where pos=1 and type=#{type}
+    </select>
+
+    <!--根据id删除-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from trade where id=#{id}
+    </delete>
+
+
+    <!--预定酒店-->
+    <insert id="orderHouse" parameterType="com.study.manager.bean.Trade">
+        insert into trade (cname,cprice,cnum,loginUser,pos,cpic,cdate,type) values (#{cname},#{cprice},#{cnum},#{loginUser},1,#{cpic},now(),#{type})
+    </insert>
+</mapper>
+

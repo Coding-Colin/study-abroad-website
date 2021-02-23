@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.study.manager.mapper.SchoolMapper">
+
+    <!--查询全部-->
+    <select id="getAll" resultType="com.study.manager.bean.School">
+        select * from school
+    </select>
+
+
+    <!--新增-->
+    <insert id="add" parameterType="com.study.manager.bean.School">
+        insert into school(sname,saddress,smoney) values (#{sname},#{saddress},#{smoney})
+    </insert>
+
+
+    <!--根据id查找-->
+    <select id="getById" parameterType="java.lang.Integer" resultType="com.study.manager.bean.School">
+        select * from school where id=#{id}
+    </select>
+
+
+    <!--更新-->
+    <update id="update" parameterType="com.study.manager.bean.School">
+        update school set  sname=#{sname},saddress=#{saddress},smoney=#{smoney} where id=#{id}
+    </update>
+
+
+    <!--删除-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from school where id=#{id}
+    </delete>
+
+    <!--更新图片-->
+    <update id="updateImgById" >
+        update school set spic=#{url}  where id=#{id}
+    </update>
+
+    <!--按照名字查询-->
+    <select id="getBySelect" parameterType="java.lang.String" resultType="com.study.manager.bean.School">
+        select * from school where sname like CONCAT(CONCAT('%',#{name},'%'))
+    </select>
+</mapper>
+

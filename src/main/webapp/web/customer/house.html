@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>附近房源</title>
+    <link rel="stylesheet" href="source/layui/css/layui.css">
+    <style>
+        .hh {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+<ul class="layui-nav" style="text-align: center;">
+    <li class="layui-nav-item"><a th:href="@{/indexHtml.do}">首页</a></li>
+    <li class="layui-nav-item"><a th:href="@{/consHtml.do}">留学资讯</a></li>
+    <li class="layui-nav-item"><a th:href="@{/cteacherHtml.do}">教师列表</a></li>
+    <li class="layui-nav-item"><a th:href="@{/popularSchoolHtml.do}">热门学校</a></li>
+    <li class="layui-nav-item"><a th:href="@{/courseShopHtml.do}">课程列表</a></li>
+    <li class="layui-nav-item"><a th:href="@{/shoppingcarHtml.do}" th:if="${session.loginUser}!=null">购物车</a></li>
+    <li class="layui-nav-item">
+        <a href="javascript:;">我的</a>
+        <dl class="layui-nav-child"> <!-- 二级菜单 -->
+            <dd><a th:href="@{/loginHtml.do}" th:if="${session.loginUser}==null">登陆</a></dd>
+            <dd><a th:href="@{/personalHtml.do}" th:if="${session.loginUser}!=null">修改密码</a></dd>
+            <dd><a th:href="@{/mybuy.do}" th:if="${session.loginUser}!=null">我买到的</a></dd>
+            <dd><a th:href="@{/quit.do}" th:if="${session.loginUser}!=null">退出登陆</a></dd>
+        </dl>
+    </li>
+</ul>
+<br><br>
+<h2 align="center">附近房源</h2>
+<br>
+<div id="messagediv">
+    <tr th:each="log:${logs}">
+        <div class="layui-container">
+            <br><br><br>
+            <div class="layui-row">
+                <div class="layui-col-md6">
+                    <img class="layui-col-md-offset6" th:src="@{${log.hpic}}" width="170px" height="170px">
+                </div>
+                <div class="layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <h3>
+                                <strong>[[${log.hname}]]</strong>
+                            </h3>
+                        </div>
+                        <div class="layui-card-body">
+
+                            地址：<h4 class="hh">[[${log.haddress}]]</h4>
+                            <br>
+                            价格：<h4 style="color: #FD482C" class="hh">[[${log.hprice}]]</h4>&nbsp;&nbsp;¥/月
+                            <br>
+                            人气指数：🌟🌟🌟🌟🌟
+                            <br>
+                            <button class="layui-btn-radius layui-btn orderhouse" th:data-id="${log.id}"
+                                    th:if="${session.loginUser!=null}">预定
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </tr>
+</div>
+<br><br>
+</body>
+<script src="source/layui/layui.js" charset="utf-8"></script>
+<script src="source/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+<script>
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function () {
+        var element = layui.element;
+    });
+
+    //预定酒店
+    $(".orderhouse").click(function () {
+        var id = $(this).attr("data-id");
+        var array = [id];
+        $.ajax({
+            type: "POST",
+            url: "/houseOrderHtml.do",
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(array),
+            success: function (data) {
+                if (data == 'success') {
+                    window.location.href = '/payhouseOrderHtml.do';
+                }
+                else {
+                    alert("遇到错误啦请重试！！！");
+                }
+            }
+        });
+    })
+</script>
+</html>

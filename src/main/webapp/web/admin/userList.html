@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>用户管理</title>
+    <link rel="stylesheet" href="source/layui/css/layui.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">管理后台</div>
+        <!--右侧-->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="source/img/logo.ico" class="layui-nav-img">
+                    [[${session.loginUser}]]
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/quit.do}">退出登陆</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a th:href="@{/userHtml.do}">用户管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/courseHtml.do}">课程管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/teacherHtml.do}">教师管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/schoolHtml.do}">学校管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/houseHtml.do}">房源管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/informationHtml.do}">公告管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/tradeHtml.do}">订单管理</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="layui-body">
+        <br>&nbsp;&nbsp;&nbsp;
+        <button type="button" class="layui-btn" data-toggle="modal" data-target="#myModal" id="adduserbtn">添加用户</button>
+        <!-- 内容主体区域 -->
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>用户名</th>
+                <th>密码</th>
+                <th>电话</th>
+                <th>身份</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody >
+            <tr th:each="log:${logs}">
+                <th width="16%">[[${log.id}]]</th>
+                <th width="16%">[[${log.name}]]</th>
+                <th width="16%">[[${log.password}]]</th>
+                <th width="16%">[[${log.tel}]]</th>
+
+                <th th:if="${log.pos}==1" width="16%"><p style="color: red">管理员</p></th>
+                <th th:if="${log.pos}==0" width="16%">VIP</th>
+                <th width="20%">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a class="layui-btn layui-btn-primary selectuser" th:data-id="${log.id}" data-toggle="modal" data-target="#myModal">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a class="layui-btn layui-btn-primary  deleteuser" th:data-id="${log.id}">删除</a>
+                </th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="layui-footer" align="center">
+        © 2021 - 留学门面管理端
+    </div>
+</div>
+<!--模拟框-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel" >
+                    添加用户
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="aname">用户名</label>
+                        <input type="text" class="form-control" id="aname">
+                    </div>
+                    <div class="form-group">
+                        <label for="atel">电话</label>
+                        <input type="text" class="form-control" id="atel">
+                    </div>
+                    <div class="form-group">
+                        <label for="apsw">密码</label>
+                        <input type="text" class="form-control" id="apsw">
+                    </div>
+                    <div class="form-group">
+                        <label for="pos1">身份</label><br>
+                        <input type="radio" id="pos1" name="pos1" value="0" checked> VIP
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" id="pos2" name="pos1" value="1"> 管理员
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="ubtn">添加</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<script src="source/layui/layui.js" charset="utf-8"></script>
+<script src="source/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function(){
+        var element = layui.element;
+
+    });
+
+    //修改模态框的文字
+    $("#adduserbtn").click(function () {
+        $("#myModalLabel").html("添加用户");
+        $("#ubtn").text("添加");
+        $("#aname").val('');
+        $("#atel").val('');
+        $("#apsw").val('');
+        $("#pos1").attr("checked","checked");
+    });
+
+    //公用按钮
+    $("#ubtn").click(function () {
+        var val = $("#ubtn").text();
+        if (val=='添加'){
+            add();
+        }
+        else if(val=='更新'){
+            update();
+        }
+    });
+
+    //编辑
+    $(".selectuser").click(function (){
+        var id = $(this).attr("data-id");
+        localStorage.setItem("id",id);
+        $.ajax({
+            type: "POST",
+            url: "/selectuser.do",
+            dataType: "json",
+            contentType : "application/json;charset=UTF-8",
+            data:id,
+            success: function(data){
+                $("#myModalLabel").html("修改用户");
+                $("#ubtn").text("更新");
+                $("#aname").val(data.name);
+                $("#atel").val(data.tel);
+                $("#apsw").val(data.password);
+                if (data.pos==0){
+                    $("#pos1").attr("checked","checked");
+                }
+                else {
+                    $("#pos2").attr("checked","checked");
+                }
+            }
+        });
+    });
+
+    //删除
+    $(".deleteuser").click(function (){
+        var id = $(this).attr("data-id");
+        $.ajax({
+            type: "POST",
+            url: "/deleteuser.do",
+            dataType: "json",
+            contentType : "application/json;charset=UTF-8",
+            data:id,
+            success: function(data){
+                alert(data);
+                if (data=="删除成功"){
+                    window.location.href = window.location.href;
+                }
+            }
+        });
+    });
+
+    //添加
+    function add() {
+        var aname = $("#aname").val();
+        var atel = $("#atel").val();
+        var apsw = $("#apsw").val();
+        var apos = $('input:radio:checked').val();
+        if(aname=='') {
+            alert("用户名不能为空");
+        }
+        else if(atel=='') {
+            alert("电话不能为空");
+        }
+        else if(apsw==''){
+            alert("密码不能为空");
+        }
+        else {
+            if (confirm("确认添加？")) {
+                var array = [aname,atel,apsw,apos];
+                $.ajax({
+                    type: "POST",
+                    url: "/addUser.do",
+                    dataType: "json",
+                    contentType : "application/json;charset=UTF-8",
+                    data:JSON.stringify(array),
+                    success: function (data) {
+                        alert(data);
+                        if (data=='注册成功') {
+                            window.location.href=window.location.href;
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    //更新方法
+    function update() {
+        var id = localStorage.getItem("id");
+        var aname = $("#aname").val();
+        var atel = $("#atel").val();
+        var apsw = $("#apsw").val();
+        var apos = $('input:radio:checked').val();
+        if (confirm("确认修改?")) {
+            var array = [id,aname,atel,apsw,apos];
+            $.ajax({
+                type: "POST",
+                url: "/updateUser.do",
+                dataType: "json",
+                contentType : "application/json;charset=UTF-8",
+                data:JSON.stringify(array),
+                success: function (data) {
+                    alert(data);
+                    if (data=='更新成功') {
+                        window.location.href=window.location.href;
+                    }
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.study.manager.mapper.UserMapper">
+
+
+    <!--  注册  -->
+    <insert id="insert" parameterType="com.study.manager.bean.User">
+        INSERT INTO user (name,password,tel,pos) VALUES(#{name},#{password},#{tel},#{pos})
+    </insert>
+
+
+    <!--查询所有用户-->
+    <select id="getAll" resultType="com.study.manager.bean.User">
+        select * from user
+    </select>
+
+    <!--根据id查询用户-->
+    <select id="getById" parameterType="java.lang.Integer" resultType="com.study.manager.bean.User">
+        select * from user where id=#{id}
+    </select>
+
+    <!--根据name查询用户-->
+    <select id="getByName" parameterType="java.lang.String" resultType="com.study.manager.bean.User">
+        select * from user where name=#{name}
+    </select>
+
+
+    <!--根据用户名更新信息-->
+    <update id="update" parameterType="com.study.manager.bean.User">
+        update user set password=#{password},tel=#{tel},pos=#{pos},name=#{name} where id=#{id}
+    </update>
+
+
+    <!--根据id删除用户-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from user where id=#{id}
+    </delete>
+
+
+    <!--用户授权-->
+    <update id="upPos" parameterType="java.lang.Integer">
+        update user set  pos=1  where id=#{id}
+    </update>
+</mapper>
+
+
+
+
+
+
+

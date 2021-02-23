@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>交易管理</title>
+    <link rel="stylesheet" href="source/layui/css/layui.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">管理后台</div>
+        <!--右侧-->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="source/img/logo.ico" class="layui-nav-img">
+                    [[${session.loginUser}]]
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/quit.do}">退出登陆</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a th:href="@{/userHtml.do}">用户管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/courseHtml.do}">课程管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/teacherHtml.do}">教师管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/schoolHtml.do}">学校管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/houseHtml.do}">房源管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/informationHtml.do}">公告管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/tradeHtml.do}">订单管理</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="layui-body">
+        <br>&nbsp;&nbsp;&nbsp;
+        <button type="button" class="layui-btn" id="fangzi">房源订单</button>
+        <button type="button" class="layui-btn" id="kecheng">课程订单</button>
+        <!-- 内容主体区域 -->
+        <table class="layui-table" id="kechengs">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>课程名称</th>
+                <th>价格</th>
+                <th>数量</th>
+                <th>买家</th>
+                <th>购买时间</th>
+                <th>状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="log:${kcs}">
+                <th width="16%">[[${log.id}]]</th>
+                <th width="16%">[[${log.cname}]]</th>
+                <th width="16%">[[${log.cprice}]]</th>
+                <th width="6%">[[${log.cnum}]]</th>
+                <th width="16%">[[${log.loginUser}]]</th>
+                <th width="16%" th:text="${#dates.format(log.cdate,'YYYY-MM-dd')}"></th>
+                <th width="16%">
+                    已完成
+                </th>
+            </tr>
+            </tbody>
+        </table>
+        <table class="layui-table" id="jiudian" style="display: none">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>课程名称</th>
+                <th>价格</th>
+                <th>数量</th>
+                <th>买家</th>
+                <th>购买时间</th>
+                <th>状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="log:${jds}">
+                <th width="16%">[[${log.id}]]</th>
+                <th width="16%">[[${log.cname}]]</th>
+                <th width="16%">[[${log.cprice}]]</th>
+                <th width="6%">[[${log.cnum}]]</th>
+                <th width="16%">[[${log.loginUser}]]</th>
+                <th width="16%" th:text="${#dates.format(log.cdate,'YYYY-MM-dd')}"></th>
+                <th width="16%">
+                    已完成
+                </th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="layui-footer" align="center">
+        © 2021 - 留学门面管理端
+    </div>
+</div>
+<script src="source/layui/layui.js" charset="utf-8"></script>
+<script src="source/jquery-3.5.1/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    //JavaScript代码区域
+    layui.use(['element', 'layer'], function () {
+        var element = layui.element;
+        var layer = layui.layer;
+    });
+
+    $("#fangzi").click(function () {
+        $("#kechengs").hide();
+        $("#jiudian").show();
+    });
+    $("#kecheng").click(function () {
+        $("#kechengs").show();
+        $("#jiudian").hide();
+    });
+</script>
+</body>
+</html>
