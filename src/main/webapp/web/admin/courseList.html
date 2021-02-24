@@ -51,7 +51,7 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    问题详情
+                    详情
                 </h4>
             </div>
             <div class="modal-body">
@@ -63,7 +63,14 @@
                     <div class="form-group">
                         <label for="acontent">简介</label>
                         <textarea class="form-control" rows="3" id="acontent"></textarea>
-
+                    </div>
+                    <div class="form-group">
+                        <label for="ateacher">关联老师</label>
+                        <select id="ateacher" class="form-control">
+                            <div th:each="teacher:${teachers}">
+                                <option th:value="${teacher.id}">[[${teacher.tname}]]</option>
+                            </div>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="acdate">开课时间</label>
@@ -150,7 +157,7 @@
                 $("#acontent").val(data.cintroduce);
                 $("#acdate").val(data.cdate);
                 $("#aprice").val(data.cprice);
-
+                $("#ateacher").val(data.tid);
             }
         });
     });
@@ -181,6 +188,7 @@
         var acontent = $("#acontent").val();
         var acdate = $("#acdate").val();
         var aprice = $("#aprice").val();
+        var ateacher = $("#ateacher").val();
         if (atitle == '') {
             alert("课程名称不能为空");
         }
@@ -195,7 +203,7 @@
         }
         else {
             if (confirm("确认添加？")) {
-                var array = [atitle, acontent, acdate, aprice];
+                var array = [atitle, acontent, acdate, aprice, ateacher];
                 $.ajax({
                     type: "POST",
                     url: "/addCourse.do",
@@ -220,8 +228,9 @@
         var acontent = $("#acontent").val();
         var acdate = $("#acdate").val();
         var aprice = $("#aprice").val();
+        var ateacher = $("#ateacher").val();
         if (confirm("确认修改?")) {
-            var array = [id, atitle, acontent, acdate, aprice];
+            var array = [id, atitle, acontent, acdate, aprice, ateacher];
             $.ajax({
                 type: "POST",
                 url: "/updateCourse.do",

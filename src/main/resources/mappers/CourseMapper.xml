@@ -11,7 +11,7 @@
 
     <!--新增-->
     <insert id="add" parameterType="com.study.manager.bean.Course">
-        insert into course(cname,cintroduce,cdate,cprice,cpic) values (#{cname},#{cintroduce},#{cdate},#{cprice},'source/img/course/c7.jpg')
+        insert into course(cname,cintroduce,cdate,cprice,cpic,tid) values (#{cname},#{cintroduce},#{cdate},#{cprice},'source/img/course/c7.jpg',#{tid})
     </insert>
 
 
@@ -23,7 +23,7 @@
 
     <!--更新-->
     <update id="update" parameterType="com.study.manager.bean.Course">
-        update course set  cname=#{cname},cintroduce=#{cintroduce},cdate=#{cdate},cprice=#{cprice} where id=#{id}
+        update course set  cname=#{cname},cintroduce=#{cintroduce},cdate=#{cdate},cprice=#{cprice},tid=#{tid} where id=#{id}
     </update>
 
 

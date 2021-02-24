@@ -11,7 +11,7 @@
 
     <!--新增-->
     <insert id="add" parameterType="com.study.manager.bean.House">
-        insert into house(hname,haddress,hprice,htel,hpic) values (#{hname},#{haddress},#{hprice},#{htel},'source/img/house/h2.jpg')
+        insert into house(hname,haddress,hprice,htel,sid,hpic) values (#{hname},#{haddress},#{hprice},#{htel},#{sid},'source/img/house/h2.jpg')
     </insert>
 
 
@@ -23,7 +23,7 @@
 
     <!--更新-->
     <update id="update" parameterType="com.study.manager.bean.House">
-        update house set  hname=#{hname},haddress=#{haddress},hprice=#{hprice},htel=#{htel} where id=#{id}
+        update house set  hname=#{hname},haddress=#{haddress},hprice=#{hprice},htel=#{htel},sid=#{sid} where id=#{id}
     </update>
 
 

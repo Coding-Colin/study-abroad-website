@@ -158,8 +158,8 @@ public class AdminController {
      */
     @RequestMapping("/courseHtml.do")
     public String courseHtml(Model model) {
-        List<Course> list = courseMapper.getAll();
-        model.addAttribute("logs", list);
+        model.addAttribute("logs", courseMapper.getAll());
+        model.addAttribute("teachers",teacherMapper.getAll());
         return "admin/courseList";
     }
 
@@ -176,6 +176,7 @@ public class AdminController {
         course.setCintroduce(array[1]);
         course.setCdate((new SimpleDateFormat("yyyy-MM-dd")).parse(array[2]));
         course.setCprice(Integer.parseInt(array[3]));
+        course.setTid(Integer.parseInt(array[4]));
         courseMapper.add(course);
         return JsonUtil.toJson("添加成功");
     }
@@ -231,6 +232,7 @@ public class AdminController {
         course.setCintroduce(array[2]);
         course.setCdate((new SimpleDateFormat("yyyy-MM-dd")).parse(array[3]));
         course.setCprice(Integer.parseInt(array[4]));
+        course.setTid(Integer.parseInt(array[5]));
         courseMapper.update(course);
         return JsonUtil.toJson("更新成功");//返回登陆页面
     }
@@ -449,8 +451,8 @@ public class AdminController {
      */
     @RequestMapping("/houseHtml.do")
     public String houseHtml(Model model) {
-        List<House> list = houseMapper.getAll();
-        model.addAttribute("logs", list);
+        model.addAttribute("logs", houseMapper.getAll());
+        model.addAttribute("schools",schoolMapper.getAll());
         return "admin/houseList";
     }
 
@@ -467,6 +469,7 @@ public class AdminController {
         house.setHaddress(array[1]);
         house.setHprice(Integer.parseInt(array[2]));
         house.setHtel(array[3]);
+        house.setSid(Integer.parseInt(array[4]));
         houseMapper.add(house);
         return JsonUtil.toJson("添加成功");
     }
@@ -522,6 +525,7 @@ public class AdminController {
         house.setHaddress(array[2]);
         house.setHprice(Integer.parseInt(array[3]));
         house.setHtel(array[4]);
+        house.setSid(Integer.parseInt(array[5]));
         houseMapper.update(house);
         return JsonUtil.toJson("更新成功");//返回登陆页面
     }

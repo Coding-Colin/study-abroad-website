@@ -52,7 +52,7 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    问题详情
+                    详情
                 </h4>
             </div>
             <div class="modal-body">
@@ -73,6 +73,13 @@
                         <label for="ahtel">联系电话</label>
                         <input type="text" class="form-control" id="ahtel">
                     </div>
+                    <div class="form-group">
+                        <label for="aschool">关联学校</label>
+                        <select id="aschool" class="form-control">
+                            <div th:each="school:${schools}">
+                                <option th:value="${school.id}">[[${school.sname}]]</option>
+                            </div>
+                        </select></div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -149,6 +156,7 @@
                 $("#ahaddress").val(data.haddress);
                 $("#ahprice").val(data.hprice);
                 $("#ahtel").val(data.htel);
+                $("#aschool").val(data.sid);
             }
         });
     });
@@ -179,6 +187,7 @@
         var ahaddress = $("#ahaddress").val();
         var ahprice = $("#ahprice").val();
         var ahtel = $("#ahtel").val();
+        var aschool = $("#aschool").val();
         if (ahname == '') {
             alert("酒店名称不能为空");
         }
@@ -193,7 +202,7 @@
         }
         else {
             if (confirm("确认添加？")) {
-                var array = [ahname, ahaddress, ahprice, ahtel];
+                var array = [ahname, ahaddress, ahprice, ahtel, aschool];
                 $.ajax({
                     type: "POST",
                     url: "/addHouse.do",
@@ -218,8 +227,9 @@
         var ahaddress = $("#ahaddress").val();
         var ahprice = $("#ahprice").val();
         var ahtel = $("#ahtel").val();
+        var aschool = $("#aschool").val();
         if (confirm("确认修改?")) {
-            var array = [id, ahname, ahaddress, ahprice, ahtel];
+            var array = [id, ahname, ahaddress, ahprice, ahtel, aschool];
             $.ajax({
                 type: "POST",
                 url: "/updateHouse.do",
