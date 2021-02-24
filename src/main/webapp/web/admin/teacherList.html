@@ -7,49 +7,7 @@
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
-    <div class="layui-header">
-        <div class="layui-logo">管理后台</div>
-        <!--右侧-->
-        <ul class="layui-nav layui-layout-right">
-            <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <img src="source/img/logo.ico" class="layui-nav-img">
-                    [[${session.loginUser}]]
-                </a>
-                <dl class="layui-nav-child">
-                    <dd><a th:href="@{/quit.do}">退出登陆</a></dd>
-                </dl>
-            </li>
-        </ul>
-    </div>
-    <div class="layui-side layui-bg-black">
-        <div class="layui-side-scroll">
-            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a th:href="@{/userHtml.do}">用户管理</a>
-                </li>
-                <li class="layui-nav-item">
-                    <a th:href="@{/courseHtml.do}">课程管理</a>
-                </li>
-                <li class="layui-nav-item">
-                    <a th:href="@{/teacherHtml.do}">教师管理</a>
-                </li>
-                <li class="layui-nav-item">
-                    <a th:href="@{/schoolHtml.do}">学校管理</a>
-                </li>
-                <li class="layui-nav-item">
-                    <a th:href="@{/houseHtml.do}">房源管理</a>
-                </li>
-                <li class="layui-nav-item">
-                    <a th:href="@{/informationHtml.do}">公告管理</a>
-                </li>
-                <li class="layui-nav-item">
-                    <a th:href="@{/tradeHtml.do}">订单管理</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    <div th:replace="admin/common::topbar"></div>
     <div class="layui-body">
         <br>&nbsp;&nbsp;&nbsp;
         <button type="button" class="layui-btn " data-toggle="modal" data-target="#myModal" id="addteacherbtn">添加老师
@@ -81,9 +39,7 @@
             </tbody>
         </table>
     </div>
-    <div class="layui-footer" align="center">
-        © 2021 - 留学门面管理端
-    </div>
+    <div th:replace="admin/common::footbar"></div>
 </div>
 <!--模拟框-->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

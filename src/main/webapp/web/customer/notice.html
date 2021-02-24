@@ -4,33 +4,21 @@
     <meta charset="UTF-8">
     <title>公告</title>
     <link rel="stylesheet" href="source/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="source/common/css/layout.css"/>
+    <script type="text/javascript" src="source/common/js/base.js"></script>
+    <script type="text/javascript" src="source/common/js/common.js"></script>
     <style>
         .hh {
             display: inline;
         }
-        a：hover{
-            cursor:pointer
+
+        a：hover {
+            cursor: pointer
         }
     </style>
 </head>
 <body>
-<ul class="layui-nav" style="text-align: center;">
-    <li class="layui-nav-item"><a th:href="@{/indexHtml.do}">首页</a></li>
-    <li class="layui-nav-item"><a th:href="@{/consHtml.do}">留学资讯</a></li>
-    <li class="layui-nav-item"><a th:href="@{/cteacherHtml.do}">教师列表</a></li>
-    <li class="layui-nav-item"><a th:href="@{/popularSchoolHtml.do}">热门学校</a></li>
-    <li class="layui-nav-item"><a th:href="@{/courseShopHtml.do}">课程列表</a></li>
-    <li class="layui-nav-item"><a th:href="@{/shoppingcarHtml.do}" th:if="${session.loginUser}!=null">购物车</a></li>
-    <li class="layui-nav-item">
-        <a href="javascript:;">我的</a>
-        <dl class="layui-nav-child"> <!-- 二级菜单 -->
-            <dd><a th:href="@{/loginHtml.do}" th:if="${session.loginUser}==null">登陆</a></dd>
-            <dd><a th:href="@{/personalHtml.do}" th:if="${session.loginUser}!=null">修改密码</a></dd>
-            <dd><a th:href="@{/mybuy.do}" th:if="${session.loginUser}!=null">我买到的</a></dd>
-            <dd><a th:href="@{/quit.do}" th:if="${session.loginUser}!=null">退出登陆</a></dd>
-        </dl>
-    </li>
-</ul>
+<div th:replace="customer/common::topbar"></div>
 <br><br>
 <h2 align="center">新闻公告</h2>
 <br>
@@ -59,6 +47,7 @@
         </div>
     </tr>
 </div>
+<div th:replace="customer/common::chatbar"></div>
 <br>
 <br>
 </body>
@@ -73,5 +62,7 @@
     $(".lxzx").click(function () {
         window.open("https://www.zhihu.com/question/21246982");
     })
+
+    Common.init();
 </script>
 </html>

@@ -48,6 +48,7 @@ public class LRController {
         String pas = user.password;
         if (pas.equals(array[1])) {
             if (Integer.parseInt(array[2]) == user.pos) {
+                userMapper.updateLoginCount(user.name, user.getLoginCount() + 1L);
                 session.setAttribute("loginUser", array[0]);//把登陆用户设置到session中
                 if (user.pos == 1) {
                     return JsonUtil.toJson("欢迎管理员登陆");//返回管理端
@@ -80,7 +81,7 @@ public class LRController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/senduuid.do",method = RequestMethod.POST)
+    @RequestMapping(value = "/senduuid.do", method = RequestMethod.POST)
     public String senduuid(@RequestBody String array[], HttpSession session) {
         String uuid = UUIDUtils.postUUID();
         session.setAttribute("uuid", uuid);
@@ -126,6 +127,7 @@ public class LRController {
             user.setTel(array[1]);
             user.setPassword(array[2]);
             user.setPos(Integer.parseInt(array[3]));
+            user.setCreateTime(System.currentTimeMillis());
             userMapper.insert(user);
             return JsonUtil.toJson("注册成功");//返回登陆页面
         }

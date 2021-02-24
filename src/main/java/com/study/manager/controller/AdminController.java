@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class AdminController {
@@ -41,6 +43,7 @@ public class AdminController {
     public TradeMapper tradeMapper;
 
     public static String PATH = "";//项目路径source/img的绝对路径
+    public static final Long ONE_DAY_CURR = 60 * 60 * 24 * 1000L;
 
 
     /**
@@ -57,21 +60,22 @@ public class AdminController {
 
     /**
      * 添加用户
+     *
      * @return
      */
     @ResponseBody
     @RequestMapping("/addUser.do")
-    public String addUser(@RequestBody String array[]){
+    public String addUser(@RequestBody String array[]) {
         User user1 = userMapper.getByName(array[0]);//判断该用户名是否已经注册过
-        if(user1!=null){
+        if (user1 != null) {
             return JsonUtil.toJson("该用户已注册请重新注册");//如果已经注册过直接返回错误
-        }
-        else {
+        } else {
             User user = new User();
             user.setName(array[0]);
             user.setTel(array[1]);
             user.setPassword(array[2]);
             user.setPos(Integer.parseInt(array[3]));//设置为普通用户
+            user.setCreateTime(System.currentTimeMillis());
             userMapper.insert(user);
             return JsonUtil.toJson("注册成功");//返回登陆页面
         }
@@ -103,6 +107,49 @@ public class AdminController {
         return JsonUtil.toJson("删除成功");
     }
 
+
+    /**
+     * 跳转报表页面
+     *
+     * @return
+     */
+    @RequestMapping("/chatHtml.do")
+    public String chatHtml() {
+        return "admin/userChats";
+    }
+
+    /**
+     * 初始化报表
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/initcharts.do")
+    public String initcharts() {
+        List<User> list = userMapper.getAll();
+        int day = 0;
+        int week = 0;
+        int month = 0;
+        for (int i = 0; i < list.size(); i++) {
+            long time = System.currentTimeMillis() - list.get(i).getCreateTime();
+            if (time < ONE_DAY_CURR) {
+                day++;
+                week++;
+                month++;
+            } else if (time < ONE_DAY_CURR * 7) {
+                week++;
+                month++;
+            } else if (time < ONE_DAY_CURR * 30) {
+                month++;
+            }
+        }
+        Object title[] = {"日", "周", "月"};
+        Object value[] = {day, week, month};
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("title", title);
+        result.put("value", value);
+        return JsonUtil.toJson(result);
+    }
 
     /**
      * 跳转课程管理

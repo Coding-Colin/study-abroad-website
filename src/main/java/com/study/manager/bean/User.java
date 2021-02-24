@@ -10,6 +10,8 @@ public class User {
     public String tel;//电话
     public String password;//密码
     public Integer pos;//职位
+    public Long createTime;
+    public Long loginCount;
 
     public Integer getId() {
         return id;
@@ -51,4 +53,19 @@ public class User {
         this.pos = pos;
     }
 
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+    }
+
+    public Long getLoginCount() {
+        return loginCount;
+    }
+
+    public void setLoginCount(Long loginCount) {
+        this.loginCount = loginCount;
+    }
 }

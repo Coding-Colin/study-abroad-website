@@ -6,7 +6,7 @@
 
     <!--  注册  -->
     <insert id="insert" parameterType="com.study.manager.bean.User">
-        INSERT INTO user (name,password,tel,pos) VALUES(#{name},#{password},#{tel},#{pos})
+        INSERT INTO user (name,password,tel,pos,createTime,loginCount) VALUES(#{name},#{password},#{tel},#{pos},#{createTime},0)
     </insert>
 
 
@@ -41,6 +41,11 @@
     <!--用户授权-->
     <update id="upPos" parameterType="java.lang.Integer">
         update user set  pos=1  where id=#{id}
+    </update>
+
+    <!--根据用户名更新信息-->
+    <update id="updateLoginCount">
+        update user set loginCount=#{loginCount} where name=#{username}
     </update>
 </mapper>
 

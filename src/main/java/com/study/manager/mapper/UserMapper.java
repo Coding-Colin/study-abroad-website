@@ -1,6 +1,7 @@
 package com.study.manager.mapper;
 
 import com.study.manager.bean.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -59,4 +60,6 @@ public interface UserMapper {
      * @param id
      */
     void upPos(Integer id);
+
+    void updateLoginCount(@Param("username") String username,@Param("loginCount")  Long loginCount);
 }

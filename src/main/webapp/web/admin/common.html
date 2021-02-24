@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:fragment="topbar">
+    <div class="layui-header">
+        <div class="layui-logo">管理后台</div>
+        <!--右侧-->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="source/img/logo.ico" class="layui-nav-img">
+                    [[${session.loginUser}]]
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a th:href="@{/quit.do}">退出登陆</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a th:href="@{/userHtml.do}">用户管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/courseHtml.do}">课程管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/teacherHtml.do}">教师管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/schoolHtml.do}">学校管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/houseHtml.do}">房源管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/informationHtml.do}">公告管理</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/tradeHtml.do}">订单管理</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="layui-footer" align="center" th:fragment="footbar">
+    © 2021 - 留学门面管理端
+</div>
+</body>
+</html>
