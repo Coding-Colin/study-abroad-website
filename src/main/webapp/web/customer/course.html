@@ -63,13 +63,14 @@
 
     //    购买课程
     function addtocar(e) {
+        var array = [e];
         $.ajax({
             type: "POST",
             url: "addshoppingcar.do",
             dataType: "json",
             scriptCharset: 'utf-8',
             contentType: "application/json;charset=UTF-8",
-            data: e,
+            data: JSON.stringify(array),
             success: function (data) {
                 alert(data);
             }

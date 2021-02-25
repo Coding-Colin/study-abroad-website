@@ -242,9 +242,9 @@ public class CustomerController {
      */
     @ResponseBody
     @RequestMapping("addshoppingcar.do")
-    public String addShoppingcar(@RequestBody Integer id, HttpSession session) {
+    public String addShoppingcar(@RequestBody String array[], HttpSession session) {
         String loginUser = String.valueOf(session.getAttribute("loginUser"));
-        Course course = courseMapper.getById(id);
+        Course course = courseMapper.getById(Integer.parseInt(String.valueOf(array[0])));
         Trade trade = new Trade();
         trade.setCname(course.cname);
         trade.setLoginUser(loginUser);
